@@ -45,9 +45,9 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'data/disableInfo.dart';
-import 'data/review.dart';
-import 'data/tourdata.dart';
+import '../../data/disableInfo.dart';
+import '../../data/review.dart';
+import '../../data/tourdata.dart';
 
 class TourDetailPage extends StatefulWidget {
   final TourData? tourData;
@@ -98,6 +98,7 @@ class _TourDetailPage extends State<TourDetailPage> {
     );
     MarkerId markerId = MarkerId(widget.tourData.hashCode.toString());
     marker = Marker(
+      icon:BitmapDescriptor.defaultMarkerWithHue(10.0),
         position: LatLng(double.parse(widget.tourData!.mapy.toString()),
             double.parse(widget.tourData!.mapx.toString())),
         flat: true,
@@ -299,7 +300,9 @@ class _TourDetailPage extends State<TourDetailPage> {
                   onChanged: (value) {
                     setState(() {
                       disableCheck1 = value;
+
                     });
+                    print(disableCheck1);
                   }),
             ),
             Text('지체 장애인 이용 점수 : ${disableCheck2.floor()}'),
@@ -344,7 +347,8 @@ class _TourDetailPage extends State<TourDetailPage> {
       height: 400,
       width: MediaQuery.of(context).size.width - 50,
       child: GoogleMap(
-          mapType: MapType.normal,
+          scrollGesturesEnabled: true,
+          mapType: MapType.terrain,
           initialCameraPosition: _GoogleMapCamera!,
           onMapCreated: (GoogleMapController controller) {
             _controller.complete(controller);

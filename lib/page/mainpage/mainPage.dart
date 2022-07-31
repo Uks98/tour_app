@@ -1,4 +1,5 @@
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:tourapp/page/mainpage/SettingPage.dart';
@@ -19,7 +20,6 @@ class _MainPageState extends State<MainPage>
   DatabaseReference? reference;
   String _databaseUrl = "https://tourapp-4594d-default-rtdb.firebaseio.com";
   var id;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -40,8 +40,8 @@ class _MainPageState extends State<MainPage>
     id = ModalRoute.of(context)!.settings.arguments.toString();
     print("모달 아이디 ${id}");
     final page = [MapPage(databaseReference: reference!,db: widget.database,id: id!,),
-      FavoritePage(),
-      SettingPage()];
+      FavoritePage(databaseReference: reference!,db: widget.database!,id: id!),
+      SettingPage(reference:reference!,id: id,)];
     return Scaffold(
       body: page[currentIndex],
         bottomNavigationBar: BottomAppBar(
